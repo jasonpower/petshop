@@ -33,15 +33,18 @@ public class ClienteRepository {
         return cliente;
     }
 
-    public Cliente atualizar(Cliente cliente){ return em.merge(cliente); }
+    public Cliente atualizar(Cliente cliente){
+        return em.merge(cliente);
+    }
 
+    public void remover(Cliente clienteASerRemovido){
+        em.remove(clienteASerRemovido);
+    }
 
-    public void remover(Cliente clienteARemover){ em.remove(clienteARemover); }
-
-    public void removerPorId(Integer id) {
-        em.createQuery("delete from CLIENTE c  where c.id = :idCliente")
+    public void removerPorId(Integer id){
+        em.createQuery("delete from Cliente c where c.id = :idCliente")
           .setParameter("idCliente", id)
-          .executeUpdate();
+        .executeUpdate();
     }
 
 }

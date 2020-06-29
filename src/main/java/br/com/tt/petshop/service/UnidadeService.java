@@ -1,5 +1,6 @@
 package br.com.tt.petshop.service;
 
+import br.com.tt.petshop.dto.UnidadeEntradaDto;
 import br.com.tt.petshop.dto.UnidadeDto;
 import br.com.tt.petshop.repository.UnidadeRepository;
 import org.springframework.stereotype.Service;
@@ -23,17 +24,20 @@ public class UnidadeService {
         return unidadeRepository.listarUnidades();
     }
 
-    public void criarUnidade(UnidadeDto unidadeDto){
-        unidadeRepository.criarUnidade(unidadeDto);
+    public int criarUnidade(UnidadeEntradaDto unidadeDto){
+        return unidadeRepository.criarUnidade(unidadeDto);
     }
 
-    public UnidadeDto buscarPorId(Long idUnidade) { return unidadeRepository.buscarPorId(idUnidade); }
-
-    public void atualizar(Long id, UnidadeDto unidadeDeEntrada) {
-        UnidadeDto unidadeSalva = this.buscarPorId(id);
-        unidadeSalva.atualizarInformacoes(unidadeDeEntrada);
-        unidadeRepository.salvar(unidadeSalva);
+    public UnidadeDto buscarPorId(Long idUnidade) {
+        return unidadeRepository.buscarPorId(idUnidade);
     }
+
+    public void atualizar(Long id, UnidadeEntradaDto unidadeDeEntrada) {
+        UnidadeDto unidade = this.buscarPorId(id);
+        unidade.atualizarInformacoes(unidadeDeEntrada);
+        unidadeRepository.salvar(unidade);
+    }
+
     @Transactional
     public void remover(Long id) {
         unidadeRepository.remover(id);

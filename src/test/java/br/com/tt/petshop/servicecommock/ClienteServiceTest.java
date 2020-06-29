@@ -1,7 +1,8 @@
 package br.com.tt.petshop.servicecommock;
 
+import br.com.tt.petshop.dto.ClienteEntradaDto;
+import br.com.tt.petshop.dto.ClienteSaidaDto;
 import br.com.tt.petshop.exception.CpfInvalidoException;
-import br.com.tt.petshop.model.Cliente;
 import br.com.tt.petshop.repository.ClienteRepository;
 import br.com.tt.petshop.service.ClienteService;
 import br.com.tt.petshop.util.CpfValidator;
@@ -21,7 +22,7 @@ class ClienteServiceTest {
         CpfValidator cpfValidator = new CpfValidator();
 
         //Act
-        List<Cliente> clientes = new ClienteService(clientRepositoryMock, cpfValidator).listarClientes();
+        List<ClienteSaidaDto> clientes = new ClienteService(clientRepositoryMock, cpfValidator, creditoClient).listarClientes();
 
         //Verificação
         assertNotNull(clientes);
@@ -31,12 +32,12 @@ class ClienteServiceTest {
     @Test
     void deveriaSalvarComSucesso(){
         //Preparação
-        Cliente clienteASerSalvo = new Cliente("Fulano dos Santos", "911.948.160-88");
+        ClienteEntradaDto clienteASerSalvo = new ClienteEntradaDto("Fulano dos Santos", "911.948.160-88");
         ClienteRepository clientRepositoryMock = new MockGilbertoClienteRepository();
         CpfValidator cpfValidator = new CpfValidator();
 
         //Act
-        new ClienteService(clientRepositoryMock, cpfValidator).criarCliente(clienteASerSalvo);
+        new ClienteService(clientRepositoryMock, cpfValidator, creditoClient).criarCliente(clienteASerSalvo);
 
         //Verificação
         assertEquals(1, ((MockGilbertoClienteRepository) clientRepositoryMock)
@@ -47,13 +48,13 @@ class ClienteServiceTest {
     @Test
     void deveriaFalharComCpfInvalido(){
         //Preparação
-        Cliente clienteASerSalvo = new Cliente("Fulano dos Santos", "A11.948.160-88");
+        ClienteEntradaDto clienteASerSalvo = new ClienteEntradaDto("Fulano dos Santos", "A11.948.160-88");
         ClienteRepository clientRepositoryMock = new MockGilbertoClienteRepository();
         CpfValidator cpfValidator = new CpfValidator();
 
         //Act
         assertThrows(CpfInvalidoException.class,
-                () -> new ClienteService(clientRepositoryMock, cpfValidator).criarCliente(clienteASerSalvo));
+                () -> new ClienteService(clientRepositoryMock, cpfValidator, creditoClient).criarCliente(clienteASerSalvo));
 
         //Verificação
         assertEquals(0, ((MockGilbertoClienteRepository) clientRepositoryMock)

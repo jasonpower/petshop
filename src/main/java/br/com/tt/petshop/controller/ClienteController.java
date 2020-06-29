@@ -1,5 +1,7 @@
 package br.com.tt.petshop.controller;
 
+import br.com.tt.petshop.dto.ClienteEntradaDto;
+import br.com.tt.petshop.dto.ClienteSaidaDto;
 import br.com.tt.petshop.model.Cliente;
 import br.com.tt.petshop.service.ClienteService;
 import org.springframework.stereotype.Controller;
@@ -24,7 +26,7 @@ public class ClienteController {
     @RequestMapping("lista")
     public String listarClientes(Model model){
 
-        List<Cliente> clientes =
+        List<ClienteSaidaDto> clientes =
                 clienteService.listarClientes();
         model.addAttribute("clientes", clientes);
 
@@ -40,7 +42,7 @@ public class ClienteController {
     public ModelAndView acaoCadastrar(@RequestParam("nome") String nome,
                                       @RequestParam("cpf") String cpf){
 
-        Cliente novoCliente = new Cliente(nome, cpf);
+        ClienteEntradaDto novoCliente = new ClienteEntradaDto(nome, cpf);
         clienteService.criarCliente(novoCliente);
 
         return new ModelAndView("cliente_cadastro");
