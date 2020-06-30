@@ -27,9 +27,7 @@ public class ClienteEntradaDto {
                 .replaceAll("[ ]{2,}", " ");
     }
 
-    public String getNomeOriginal(){
-        return nome;
-    }
+    //public String getNomeOriginal(){ return nome; }
 
     public String getCpf() {
         return cpf;
